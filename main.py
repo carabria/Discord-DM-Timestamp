@@ -12,19 +12,21 @@ class Main:
         intents.message_content = True
         self.bot = discord.Client(intents=intents)
 
-        #run function to confirm bot is logged in and working properly 
+        #init event listeners
+        self.message_reader = Messages(self.bot)
         self.on_startup()
 
         #run client
         self.login()
 
-        #begin reading mesages
-        self.message_reader = Messages(self.bot)
 
     def on_startup(self):
+        #logs bot username and id both to console and log file
         @self.bot.event
         async def on_ready():
             self.logger.info(f"User: {self.bot.user} (ID: {self.bot.user.id})")
+        #runs on_message functionality of bot to read messages sent to it
+        self.bot.event(self.message_reader.on_message)
 
     def login(self):
             self.bot.run(settings.TOKEN)

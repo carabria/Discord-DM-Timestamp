@@ -1,4 +1,5 @@
 bot-env/
 logs/
+__pycache__/
 
 .bot_token.env
