@@ -49,17 +49,14 @@ class Actions:
         
     #used for time_from_now and time_ago functions further down
     def time_input(self, message, timescale):
-        print("hit time_input")
-        print(f"Message: {message}")
         #searches for years/months/weeks/etc inside of message string using regex
         #\d+\s captures any numbers to the left of the timescale separated by a whitespace
         match = re.search(rf"(\d+)\s*{timescale}?", message)
         print(f"Match: {match}")
-
         if match:
-            print ("hit if statement")
             #returns the value of the first grouping in match, e.g. (\d+), the digits
             inputted_time = match.group(1)
+            print(f"Inputted time: {inputted_time}")
         else:
             #user did not input time value to the left of timescale
             raise custom_exceptions.NoTimeValueError
@@ -71,7 +68,7 @@ class Actions:
         #splits time so it has no miliseconds
         timer = str(time.time()).split(".")
         current_time = int(timer[0])
-        print(f"current time before methods: {current_time}")
+
         try:
             #flag to see if any condition was satisfied
             condition_met = False
@@ -80,35 +77,73 @@ class Actions:
                 #31536000 seconds in a year
                 current_time += (self.time_input(message, "year[s]") * 31536000)
                 condition_met = True
+            
+            elif re.search(r"y[s]?", message):
+                #31536000 seconds in a year
+                current_time += (self.time_input(message, "y[s]") * 31536000)
+                condition_met = True
 
             if re.search(r"month[s]?", message):
                 #2628288 seconds in a month
                 current_time += (self.time_input(message, "month[s]") * 2628288)
+                condition_met = True
+            
+            elif re.search(r"mon[s]?",message):
+                #2628288 seconds in a month
+                print("mon hit")
+                print(f"current time before mon function: {current_time}")
+                current_time += (self.time_input(message, "mon[s]") * 2628288)
+                print(f"current time after mon function: {current_time}")
                 condition_met = True
 
             if re.search(r"week[s]?", message):
                 #604800 seconds in a week
                 current_time += (self.time_input(message, "week[s]") * 604800)
                 condition_met = True
+            
+            elif re.search(r"w[s]?", message):
+                #604800 seconds in a week
+                current_time += (self.time_input(message, "w[s]") * 604800)
+                condition_met = True
 
             if re.search(r"day[s]?", message):
                 #86400 seconds in a day
                 current_time += (self.time_input(message, "day[s]") * 86400)
+                condition_met = True
+            
+            elif re.search(r"d[s]?", message):
+                #86400 seconds in a day
+                current_time += (self.time_input(message, "d[s]") * 86400)
                 condition_met = True
 
             if re.search(r"hour[s]?", message):
                 #3600 seconds in an hour
                 current_time += (self.time_input(message, "hour[s]") * 3600)
                 condition_met = True
-                
+            
+            elif re.search (r"h[s]?", message):
+                #3600 seconds in an hour
+                current_time += (self.time_input(message, "h[s]") * 3600)
+                condition_met = True
 
             if re.search(r"minute[s]?", message):
                 #60 seconds in a minute
                 current_time += (self.time_input(message, "minute[s]") * 60)
                 condition_met = True
 
+            elif re.search(r"m[s]?\s", message):
+                #60 seconds in a minute
+                current_time += (self.time_input(message, "m[s]") * 60)
+                condition_met = True
+
             if re.search(r"second[s]?", message):
                 current_time += self.time_input(message, "second[s]")
+                condition_met = True
+
+            #only runs if seconds is preceded by either a whitespace or a number
+            elif re.search(r"(?<=\d|\s)s[s]?", message):
+                print("s hit")
+                current_time += self.time_input(message, "s[s]")
                 condition_met = True
             
             if not condition_met:
@@ -134,25 +169,50 @@ class Actions:
                 #31536000 seconds in a year
                 current_time -= (self.time_input(message, "year[s]") * 31536000)
                 condition_met = True
+            
+            elif re.search(r"y[s]?", message):
+                #31536000 seconds in a year
+                current_time -= (self.time_input(message, "y[s]") * 31536000)
+                condition_met = True
 
             if re.search(r"month[s]?", message):
                 #2628288 seconds in a month
                 current_time -= (self.time_input(message, "month[s]") * 2628288)
+                condition_met = True
+            
+            elif re.search(r"mon[s]?",message):
+                #2628288 seconds in a month
+                current_time -= (self.time_input(message, "mon[s]") * 2628288)
                 condition_met = True
 
             if re.search(r"week[s]?", message):
                 #604800 seconds in a week
                 current_time -= (self.time_input(message, "week[s]") * 604800)
                 condition_met = True
+            
+            elif re.search(r"w[s]?", message):
+                #604800 seconds in a week
+                current_time -= (self.time_input(message, "w[s]") * 604800)
+                condition_met = True
 
             if re.search(r"day[s]?", message):
                 #86400 seconds in a day
                 current_time -= (self.time_input(message, "day[s]") * 86400)
                 condition_met = True
+            
+            elif re.search(r"d[s]?", message):
+                #86400 seconds in a day
+                current_time -= (self.time_input(message, "d[s]") * 86400)
+                condition_met = True
 
             if re.search(r"hour[s]?", message):
                 #3600 seconds in an hour
                 current_time -= (self.time_input(message, "hour[s]") * 3600)
+                condition_met = True
+            
+            elif re.search (r"h[s]?", message):
+                #3600 seconds in an hour
+                current_time -= (self.time_input(message, "h[s]") * 3600)
                 condition_met = True
 
             if re.search(r"minute[s]?", message):
@@ -160,10 +220,20 @@ class Actions:
                 current_time -= (self.time_input(message, "minute[s]") * 60)
                 condition_met = True
 
+            elif re.search(r"m[s]?\s", message):
+                #60 seconds in a minute
+                current_time -= (self.time_input(message, "m[s]") * 60)
+                condition_met = True
+
             if re.search(r"second[s]?", message):
                 current_time -= self.time_input(message, "second[s]")
                 condition_met = True
-            
+
+            #only runs if seconds is preceded by either a whitespace or a number
+            elif re.search(r"(?<=\d|\s)s[s]?", message):
+                print("s hit")
+                current_time -= self.time_input(message, "s[s]")
+                condition_met = True
             
             if not condition_met:
                 #user inputted time string wrong
