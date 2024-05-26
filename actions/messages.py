@@ -15,12 +15,8 @@ class Messages:
             await message.channel.send('nyaster!')
 
         if message.content.startswith("!time"):
-            #test of .endswith() function
-            if message.content.endswith("stop"):
-                    await message.channel.send("ok nyaster!")
-
             #get current time as a unix timestamp
-            elif message.content.endswith("current"):
+            if message.content.endswith("current"):
                 await message.channel.send(f'The current time is <t:{timers.Actions.current_time()}>, nyaster!')
             
             elif message.content.endswith("from now"):

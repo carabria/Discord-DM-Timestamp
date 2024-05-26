@@ -16,9 +16,6 @@ class Main:
         self.message_reader = Messages(self.bot)
         self.on_startup()
 
-        #run client
-        self.login()
-
 
     def on_startup(self):
         #logs bot username and id both to console and log file

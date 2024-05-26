@@ -10,16 +10,29 @@ class Actions:
         message_list = message.split(" ")
         timer = str(time.time()).split(".")
         current_time = int(timer[0])
+        inputted_time = ""
 
-        inputted_time = 0
         #the number inputted into the command
         for c in message_list[1]:
             if c.isdigit():
-                inputted_time += int(c)
+                #keep as string to easily convert values like 10 later
+                inputted_time += c
             else:
                 break
+        inputted_time = int(inputted_time)
 
-        #the measurement of time in the command e.g. days/months etc
-        if re.match(r"hour[s]?", message_list[2]):
+        #message_list[2] is the measurement of time in the command e.g. days/months etc
+        if re.match(r"second[s]?", message_list[2]):
+            return current_time + inputted_time
+        
+        elif re.match(r"minute[s]?", message_list[2]):
+            #60 seconds in a minute
+            return current_time + (inputted_time * 60)
+        
+        elif re.match(r"hour[s]?", message_list[2]):
             #3600 seconds in an hour
             return current_time + (inputted_time * 3600)
+        
+        elif re.match(r"day[s]?", message_list[2]):
+            #86400 seconds in a day
+            return current_time + (inputted_time * 86400)
