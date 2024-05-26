@@ -53,7 +53,7 @@ class Actions:
         #captures any numbers to the right of the timescale separated optionally by a whitespace
         print(f"Message: {message}")
         print(f"Timescale: {timescale}")
-        match = re.search(rf"\b(\d+)\s*{timescale}", message, re.IGNORECASE)
+        match = re.search(rf"(?<!\S)(\d+)\s*{timescale}", message, re.IGNORECASE)
         print(f"Match: {match}")
         if match:
             #returns the value of the first grouping in match, e.g. (\d+), the digits
