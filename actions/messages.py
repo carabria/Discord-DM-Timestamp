@@ -1,4 +1,5 @@
 import discord
+import time
 
 class Messages:
     def __init__(self, bot):
@@ -12,6 +13,8 @@ class Messages:
         #simple hello world test
         if message.content.startswith('$hello'):
             await message.channel.send('world!')
+        if message.content.equals("Give me the time."):
+            await message.channel.send(time.time)    
 
         #TODO: add logic to read timestamps. new file will need to be made
         #in order to handle unix conversion logic.
