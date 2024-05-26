@@ -30,15 +30,15 @@ class Messages:
                 
                 #get current time as a unix timestamp
                 elif message.content.endswith("-c") | message.content.endswith("-current"):
-                    await message.channel.send(f'The current time is <t:{timers.Actions.current_time()}>!')
+                    await message.channel.send(f'The current time is <t:{timers.Actions.current_time()}{timers.Actions.formatter(message.content)}>!')
                 
                 #get a time x [hours/minutes/days/etc] from now
                 elif message.content.endswith("-fn") | message.content.endswith("-from now"):
-                    await message.channel.send(f'That would be <t:{timers.Actions.time_from_now(message.content)}>')
+                    await message.channel.send(f'That would be <t:{timers.Actions.time_from_now(message.content)}{timers.Actions.formatter(message.content)}>')
 
                 #get a time x [hours/minutes/days/etc] ago
                 elif message.content.endswith("-a") | message.content.endswith ("-ago"):
-                    await message.channel.send(f'That would be <t:{timers.Actions.time_ago(message.content)}>!')
+                    await message.channel.send(f'That would be <t:{timers.Actions.time_ago(message.content)}{timers.Actions.formatter(message.content)}>!')
 
                 #parameter was entered wrong, suggest help to user
                 else:

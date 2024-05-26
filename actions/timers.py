@@ -3,11 +3,40 @@ import re
 from actions import custom_exceptions
 
 class Actions:
+    #returns the current time
     def current_time():
         #splits time so it has no miliseconds
         timer = str(time.time()).split(".")
         return int(timer[0])
     
+    #checks to see if -t, -T, etc is contained in the message, then returns a string for the proper format
+    def formatter(message):
+        if re.search(r'-[t]', message):
+            #displays as 9:01 AM
+            return ":t"
+        elif re.search(r'-[T]', message):
+            #displays as 9:01:00 AM
+            return ":T"
+        elif re.search(r'-[d]', message):
+            #displays as 11/28/2018
+            return ":d"
+        elif re.search(r'-[D]', message):
+            #displays as November 28, 2018
+            return ":D"
+        elif re.search(r'-[f]', message):
+            #displays as November 28, 2018, 9:01 AM
+            return ":f"
+        elif re.search (r'-[F]', message):
+            #displays as Wednesday, November 28, 2018, 9:01 AM
+            return ":F"
+        elif re.search(r'-[R]', message):
+            #displays as 6 years ago
+            return ":R"
+        else:
+            #Displays as November 28, 2018, 9:01 AM
+            return ""
+        
+    #returns x time from now
     def time_from_now(message):
         #splits message so each individual part of the command can be called
         message_list = message.split(" ")
@@ -60,7 +89,8 @@ class Actions:
         else:
             #user inputted time string wrong
             raise custom_exceptions.NoTimeStringError
-        
+
+    #returns x time ago    
     def time_ago(message):
         #splits message so each individual part of the command can be called
         message_list = message.split(" ")

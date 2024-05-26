@@ -1,5 +1,6 @@
 import discord
 import settings
+import sys
 from actions.messages import Messages
 
 class Main:
@@ -27,7 +28,11 @@ class Main:
 
     def login(self):
             #logs in using the token found in the settings file
-            self.bot.run(settings.TOKEN)
+            try:
+                self.bot.run(settings.TOKEN)
+            except TypeError:
+                 print("Token is NoneType. Are you sure you created a .bot_token.env file in your root folder?")
+                 sys.exit()
 
 if __name__ == "__main__":
     #to be run when main.py is used as entry point for the program
