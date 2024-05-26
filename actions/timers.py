@@ -11,7 +11,7 @@ class Actions:
     
     #checks to see if -t, -T, etc is contained in the message, then returns a string for the proper format
     def formatter(message):
-        #the regex here takes in the parameter, like 
+        #the regex here searches for the parameter, accepting it if there is trailing and leading whitespace, but not if there is a leading character.
         if re.search(r'(^|\s)-t(?=\s|$)', message):
             #displays as 9:01 AM
             return ":t"
