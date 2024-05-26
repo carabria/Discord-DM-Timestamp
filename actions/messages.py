@@ -14,8 +14,12 @@ class Messages:
         #simple hello world test
         if message.content.startswith('!hello'):
             await message.channel.send('world!')
+        
+        elif message.content.startswith('!help') | message.content.startswith('!h'):
+            await message.channel.send('!hello: sends a message to verify the bot is running!\n!t (!time): commands related to unix timestamping!\nuse -as a prefix at the end of the command for options (e.x. !time -help)')
 
-        if message.content.startswith("!time") | message.content.startswith("!t"):
+
+        elif message.content.startswith("!time") | message.content.startswith("!t"):
             try:
                 #get current time as a unix timestamp
                 if message.content.endswith("-h") | message.content.endswith("-help"):
