@@ -76,7 +76,7 @@ class Actions:
 
         try:
             #dictionary regex for every possible time combination. [s]? allows for the time to be plural optionally.
-            #the value represents the seconds in each timescale. e.g. there are 6 0seconds in a minute.
+            #the value represents the seconds in each timescale. e.g. there are 60 seconds in a minute.
             time_patterns = {
                 "year[s]?": 31536000,
                 "y[s]?": 31536000,
