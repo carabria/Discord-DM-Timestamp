@@ -12,3 +12,6 @@ class Messages:
         #simple hello world test
         if message.content.startswith('$hello'):
             await message.channel.send('world!')
+
+        #TODO: add logic to read timestamps. new file will need to be made
+        #in order to handle unix conversion logic.
