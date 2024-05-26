@@ -50,7 +50,7 @@ class Actions:
     #used for time_from_now and time_ago functions further down
     def time_input(self, message, timescale):
         #searches for years/months/weeks/etc inside of message string using regex
-        #\d+\s captures any numbers to the left of the timescale separated by a whitespace
+        #captures any numbers to the right of the timescale separated optionally by a whitespace
         print(f"Message: {message}")
         print(f"Timescale: {timescale}")
         match = re.search(rf"\b(\d+)\s*{timescale}", message, re.IGNORECASE)
