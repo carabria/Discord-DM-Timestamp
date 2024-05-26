@@ -51,7 +51,9 @@ class Actions:
     def time_input(self, message, timescale):
         #searches for years/months/weeks/etc inside of message string using regex
         #\d+\s captures any numbers to the left of the timescale separated by a whitespace
-        match = re.search(rf"(\d+)\s*{timescale}?", message)
+        print(f"Message: {message}")
+        print(f"Timescale: {timescale}")
+        match = re.search(rf"(\d+)\s*{timescale}", message)
         print(f"Match: {match}")
         if match:
             #returns the value of the first grouping in match, e.g. (\d+), the digits
@@ -81,13 +83,15 @@ class Actions:
                 "month[s]?": 2628288,
                 "mon[s]?": 2628288,
                 "week[s]?": 604800,
-                "w[s]?": 604800,
+                #extra check to ensure w is not the end of the string for -from now command
+                "w[s]?(?!$)": 604800,
                 "day[s]?": 86400,
                 "d[s]?": 86400,
                 "hour[s]?": 3600,
                 "h[s]?": 3600,
                 "minute[s]?": 60,
-                "m[s]?": 60,
+                #extra check to ensure m is not preceded by a letter for the -from now command
+                "(?<![a-zA-Z\d])m[s]?": 60,
                 "second[s]?": 1,
                 #only checks s if it is preceded by either a digit or a whitspace
                 "(?<=\d|\s)s[s]?": 1
