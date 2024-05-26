@@ -31,8 +31,9 @@ class Messages:
                 elif message.content.endswith("ago"):
                     await message.channel.send(f'That would be <t:{timers.Actions.time_ago(message.content)}>, nyaster!')     
             
-            except custom_exceptions.InputError as e:
+            except custom_exceptions.NoTimeValueError as e:
                 await message.channel.send(f'{e}')
-            
+            except custom_exceptions.NoTimeStringError as e:
+                await message.channel.send(f'{e}')
             else:
                 await message.channel.send('You don\'t seem to have inputted the command in correctly, nyaster... Why nyot try using help?')

@@ -23,7 +23,7 @@ class Actions:
         try:
             inputted_time = int(inputted_time)
         except ValueError:
-            raise custom_exceptions.InputError
+            raise custom_exceptions.NoTimeValueError
 
         #message_list[2] is the measurement of time in the command e.g. days/months etc
         if re.match(r"second[s]?", message_list[2]):
@@ -53,6 +53,9 @@ class Actions:
             #31536000 seconds in a year
             return current_time + (inputted_time * 31536000)
         
+        else:
+            raise custom_exceptions.NoTimeStringError
+        
     def time_ago(message):
         message_list = message.split(" ")
         timer = str(time.time()).split(".")
@@ -69,7 +72,7 @@ class Actions:
         try:
             inputted_time = int(inputted_time)
         except ValueError:
-            raise custom_exceptions.InputError
+            raise custom_exceptions.NoTimeValueError
 
         #message_list[2] is the measurement of time in the command e.g. days/months etc
         if re.match(r"second[s]?", message_list[2]):
@@ -98,3 +101,6 @@ class Actions:
         elif re.match(r"year[s]?", message_list[2]):
             #31536000 seconds in a year
             return current_time - (inputted_time * 31536000)
+        
+        else:
+            raise custom_exceptions.NoTimeStringError
