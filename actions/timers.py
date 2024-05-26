@@ -1,5 +1,6 @@
 import time
 import re
+from actions import custom_exceptions
 
 class Actions:
     def current_time():
@@ -19,7 +20,10 @@ class Actions:
                 inputted_time += c
             else:
                 break
-        inputted_time = int(inputted_time)
+        try:
+            inputted_time = int(inputted_time)
+        except ValueError:
+            raise custom_exceptions.InputError
 
         #message_list[2] is the measurement of time in the command e.g. days/months etc
         if re.match(r"second[s]?", message_list[2]):
@@ -62,7 +66,10 @@ class Actions:
                 inputted_time += c
             else:
                 break
-        inputted_time = int(inputted_time)
+        try:
+            inputted_time = int(inputted_time)
+        except ValueError:
+            raise custom_exceptions.InputError
 
         #message_list[2] is the measurement of time in the command e.g. days/months etc
         if re.match(r"second[s]?", message_list[2]):

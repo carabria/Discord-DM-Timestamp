@@ -1,5 +1,6 @@
 import discord
-from . import timers
+from actions import timers
+from actions import custom_exceptions
 
 class Messages:
     def __init__(self, bot):
@@ -15,19 +16,23 @@ class Messages:
             await message.channel.send('nyaster!')
 
         if message.content.startswith("!time"):
-            #get current time as a unix timestamp
-            if message.content.endswith("help"):
-                await message.channel.send(
-                    'current: returns the current time!\nfrom now: returns x hours/days/minutes/etc from now!\nago: returns x hours/days/minutes/etc ago!')
-            
-            elif message.content.endswith("current"):
-                await message.channel.send(f'The current time is <t:{timers.Actions.current_time()}>, nyaster!')
-            
-            elif message.content.endswith("from now"):
-                 await message.channel.send(f'That would be <t:{timers.Actions.time_from_now(message.content)}>, nyaster!')
+            try:
+                #get current time as a unix timestamp
+                if message.content.endswith("help"):
+                    await message.channel.send(
+                        'current: returns the current time!\nfrom now: returns x hours/days/minutes/etc from now!\nago: returns x hours/days/minutes/etc ago!')
+                
+                elif message.content.endswith("current"):
+                    await message.channel.send(f'The current time is <t:{timers.Actions.current_time()}>, nyaster!')
+                
+                elif message.content.endswith("from now"):
+                    await message.channel.send(f'That would be <t:{timers.Actions.time_from_now(message.content)}>, nyaster!')
 
-            elif message.content.endswith("ago"):
-                await message.channel.send(f'That would be <t:{timers.Actions.time_ago(message.content)}>, nyaster!')     
-
+                elif message.content.endswith("ago"):
+                    await message.channel.send(f'That would be <t:{timers.Actions.time_ago(message.content)}>, nyaster!')     
+            
+            except custom_exceptions.InputError as e:
+                await message.channel.send(f'{e}')
+            
             else:
                 await message.channel.send('You don\'t seem to have inputted the command in correctly, nyaster... Why nyot try using help?')
