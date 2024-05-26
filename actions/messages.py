@@ -7,6 +7,7 @@ from actions import custom_exceptions
 class Messages:
     def __init__(self, bot):
         self.bot = bot
+        self.Actions = timers.Actions()
 
     async def on_message(self, message):
         #ignore any messages sent by the bot
@@ -42,7 +43,7 @@ class Messages:
                         -R: displays in relative time (<t:1543392060:R>)
                         Leave blank to display as <t:1543392060>
 
-                        Operation parameters, incldue this as the last part of the command:
+                        Operation parameters, include this as the last part of the command:
                         -c (current): returns the current time!
                         -fn (from now): returns x hours/days/minutes/etc from now!
                         -a (ago): returns x hours/days/minutes/etc ago!
@@ -51,15 +52,21 @@ class Messages:
                 
                 #get current time as a unix timestamp
                 elif message.content.endswith("-c") or message.content.endswith("-current"):
-                    await message.channel.send(f'The current time is <t:{timers.Actions.current_time()}{timers.Actions.formatter(message.content)}>!')
+                    timestamp = self.Actions.current_time()
+                    time_format = self.Actions.formatter(message.content)
+                    await message.channel.send(f'The current time is <t:{timestamp}{time_format}>!')
                 
                 #get a time x [hours/minutes/days/etc] from now
                 elif message.content.endswith("-fn") or message.content.endswith("-from now"):
-                    await message.channel.send(f'That would be <t:{timers.Actions.time_from_now(message.content)}{timers.Actions.formatter(message.content)}>')
+                    timestamp = self.Actions.time_from_now(message.content)
+                    time_format = self.Actions.formatter(message.content)
+                    await message.channel.send(f'That would be <t:{timestamp}{time_format}>')
 
                 #get a time x [hours/minutes/days/etc] ago
                 elif message.content.endswith("-a") or message.content.endswith ("-ago"):
-                    await message.channel.send(f'That would be <t:{timers.Actions.time_ago(message.content)}{timers.Actions.formatter(message.content)}>!')
+                    timestamp = self.Actions.time_ago(message.content)
+                    time_format = self.Actions.formatter(message.content)
+                    await message.channel.send(f'That would be <t:{timestamp}{time_format}>!')
 
                 #parameter was entered wrong, suggest help to user
                 else:
