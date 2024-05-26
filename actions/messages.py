@@ -32,6 +32,17 @@ class Messages:
                 #display available parameters in time
                 if message.content.endswith("-h") or message.content.endswith("-help"):
                     help_message = '''
+                        Time formatting options, include these as the 2nd to last part of the command:
+                        -t: displays in short time (<t:1543392060:t>)
+                        -T: displays in long time (<t:1543392060:T>)
+                        -d: displays in short date (<t:1543392060:d>)
+                        -D: displays in long date (<t:1543392060:D>)
+                        -f: displays in short date/time (<t:1543392060:f>)
+                        -F: displays in long date/time (<t:1543392060:F>
+                        -R: displays in relative time (<t:1543392060:R>)
+                        Leave blank to display as <t:1543392060>
+
+                        Operation parameters, incldue this as the last part of the command:
                         -c (current): returns the current time!
                         -fn (from now): returns x hours/days/minutes/etc from now!
                         -a (ago): returns x hours/days/minutes/etc ago!
