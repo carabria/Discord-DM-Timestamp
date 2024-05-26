@@ -53,7 +53,7 @@ class Actions:
         #\d+\s captures any numbers to the left of the timescale separated by a whitespace
         print(f"Message: {message}")
         print(f"Timescale: {timescale}")
-        match = re.search(rf"(\d+)\s*{timescale}", message)
+        match = re.search(rf"(\d+)\s*{timescale}", message, re.IGNORECASE)
         print(f"Match: {match}")
         if match:
             #returns the value of the first grouping in match, e.g. (\d+), the digits
@@ -79,27 +79,36 @@ class Actions:
             #the value represents the seconds in each timescale. e.g. there are 60 seconds in a minute.
             time_patterns = {
                 "year[s]?": 31536000,
-                "y[s]?": 31536000,
+                #extra check to ensure y is not preceded by a letter
+                "(?<![a-zA-Z\d])y[s]?": 31536000,
+
                 "month[s]?": 2628288,
                 "mon[s]?": 2628288,
+
                 "week[s]?": 604800,
-                #extra check to ensure w is not the end of the string for -from now command
+                #extra check to ensure w is not the end of the string
                 "w[s]?(?!$)": 604800,
+
                 "day[s]?": 86400,
-                "d[s]?": 86400,
+                #extra check to ensure d is not preceded by -
+                "(?<!-)d[s]?": 86400,
+
                 "hour[s]?": 3600,
-                "h[s]?": 3600,
+                #extra check to ensure h is not preceded by a letter
+                "(?<![a-zA-Z\d])h[s]?": 3600,
+
                 "minute[s]?": 60,
-                #extra check to ensure m is not preceded by a letter for the -from now command
+                #extra check to ensure m is not preceded by a letter
                 "(?<![a-zA-Z\d])m[s]?": 60,
+                
                 "second[s]?": 1,
-                #only checks s if it is preceded by either a digit or a whitspace
+                #only checks s if it is preceded by either a digit or a whitespace
                 "(?<=\d|\s)s[s]?": 1
             }
             
             for pattern, seconds in time_patterns.items():
                 #if the pattern (e.g. year[s]? is found in the message)
-                if re.search(pattern, message):
+                if re.search(pattern, message, re.IGNORECASE):
                     current_time += (operator * self.time_input(message, pattern) * seconds)
                     pattern_found = True
             

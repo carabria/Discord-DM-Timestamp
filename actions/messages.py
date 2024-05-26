@@ -53,13 +53,13 @@ class Messages:
                         -a (ago): returns x hours/days/minutes/etc ago!
 
                         Time values, include this before formatting and operation parameters:
-                        -y[s] (year[s])
-                        -mon[s] (month[s])
-                        -w[s] (week[s])
-                        -d[s] (day[s])
-                        -h[s] (hour[s])
-                        -m[s] (minute[s])
-                        -s[s] (second[s])
+                        y[s] (year[s])
+                        mon[s] (month[s])
+                        w[s] (week[s])
+                        d[s] (day[s])
+                        h[s] (hour[s])
+                        m[s] (minute[s])
+                        s[s] (second[s])
                     '''
                     await message.channel.send(textwrap.dedent(help_message))
                 
