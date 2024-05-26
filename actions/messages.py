@@ -58,14 +58,18 @@ class Messages:
                 
                 #get a time x [hours/minutes/days/etc] from now
                 elif message.content.endswith("-fn") or message.content.endswith("-from now"):
-                    timestamp = self.Actions.time_from_now(message.content)
+                    #pased in with 1 to add in time_calc function
+                    timestamp = self.Actions.time_calc(message.content, 1)
                     time_format = self.Actions.formatter(message.content)
+                    
                     await message.channel.send(f'That would be <t:{timestamp}{time_format}>')
 
                 #get a time x [hours/minutes/days/etc] ago
                 elif message.content.endswith("-a") or message.content.endswith ("-ago"):
-                    timestamp = self.Actions.time_ago(message.content)
+                    #passed in with -1 to subtract in time_calc function
+                    timestamp = self.Actions.time_calc(message.content, -1)
                     time_format = self.Actions.formatter(message.content)
+
                     await message.channel.send(f'That would be <t:{timestamp}{time_format}>!')
 
                 #parameter was entered wrong, suggest help to user
