@@ -47,6 +47,15 @@ class Messages:
                         -c (current): returns the current time!
                         -fn (from now): returns x hours/days/minutes/etc from now!
                         -a (ago): returns x hours/days/minutes/etc ago!
+
+                        Time values, include this before formatting and operation parameters:
+                        -y[s] (year[s])
+                        -mon[s] (month[s])
+                        -w[s] (week[s])
+                        -d[s] (day[s])
+                        -h[s] (hour[s])
+                        -m[s] (minute[s])
+                        -s[s] (second[s])
                     '''
                     await message.channel.send(textwrap.dedent(help_message))
                 
@@ -61,7 +70,7 @@ class Messages:
                     #pased in with 1 to add in time_calc function
                     timestamp = self.Actions.time_calc(message.content, 1)
                     time_format = self.Actions.formatter(message.content)
-                    
+
                     await message.channel.send(f'That would be <t:{timestamp}{time_format}>')
 
                 #get a time x [hours/minutes/days/etc] ago
