@@ -19,6 +19,8 @@ class Messages:
             await message.channel.send('world!')
         
         #help menu displaying all available commands
+        # # # # # # # # # # # # # # # # # # # # # # #
+
         elif message.content.startswith('!help') or message.content.startswith('!h'):
             help_message = '''
                 !hello: sends a message to verify the bot is running!
@@ -28,6 +30,8 @@ class Messages:
             await message.channel.send(textwrap.dedent(help_message))
 
         #commands relating to unix timestamps
+        # # # # # # # # # # # # # # # # # # #
+        
         elif message.content.startswith("!time") or message.content.startswith("!t"):
             try:
                 #display available parameters in time

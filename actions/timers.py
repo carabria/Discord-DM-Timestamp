@@ -68,7 +68,10 @@ class Actions:
         #splits time so it has no miliseconds
         timer = str(time.time()).split(".")
         current_time = int(timer[0])
-        
+
+        #flag to be raised when a pattern is found. if not raise, exception happens at end of method
+        pattern_found = False
+
         try:
             #dictionary regex for every possible time combination. [s]? allows for the time to be plural optionally.
             #the value represents the seconds in each timescale. e.g. there are 6 0seconds in a minute.
@@ -94,9 +97,9 @@ class Actions:
                 #if the pattern (e.g. year[s]? is found in the message)
                 if re.search(pattern, message):
                     current_time += (operator * self.time_input(message, pattern) * seconds)
-                    break
+                    pattern_found = True
             
-            else:
+            if not pattern_found:
                 raise custom_exceptions.NoTimeStringError
         
         except custom_exceptions.NoTimeValueError:
