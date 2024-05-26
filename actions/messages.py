@@ -16,8 +16,18 @@ class Messages:
 
         if message.content.startswith("!time"):
             #get current time as a unix timestamp
-            if message.content.endswith("current"):
+            if message.content.endswith("help"):
+                await message.channel.send(
+                    'current: returns the current time!\nfrom now: returns x hours/days/minutes/etc from now!\nago: returns x hours/days/minutes/etc ago!')
+            
+            elif message.content.endswith("current"):
                 await message.channel.send(f'The current time is <t:{timers.Actions.current_time()}>, nyaster!')
             
             elif message.content.endswith("from now"):
                  await message.channel.send(f'That would be <t:{timers.Actions.time_from_now(message.content)}>, nyaster!')
+
+            elif message.content.endswith("ago"):
+                await message.channel.send(f'That would be <t:{timers.Actions.time_ago(message.content)}>, nyaster!')     
+
+            else:
+                await message.channel.send('You don\'t seem to have inputted the command in correctly, nyaster... Why nyot try using help?')
