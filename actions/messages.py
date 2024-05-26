@@ -13,7 +13,12 @@ class Messages:
         #simple hello world test
         if message.content.startswith('!hello'):
             await message.channel.send('nyaster!')
+
         if message.content.startswith("!time"):
-            await message.channel.send(f'The current time is <t:{timers.Actions.current_time()}>, nyaster!')   
-        #TODO: add logic to read timestamps. new file will need to be made
-        #in order to handle unix conversion logic.
+            #test of .endswith() function
+            if message.content.endswith("stop"):
+                    await message.channel.send("ok nyaster!")
+
+            #get current time as a unix timestamp
+            elif message.content.endswith("current"):
+                await message.channel.send(f'The current time is <t:{timers.Actions.current_time()}>, nyaster!')
