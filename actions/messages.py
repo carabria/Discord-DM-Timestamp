@@ -53,5 +53,5 @@ class Messages:
                 await message.channel.send(f'{e}')
 
         #checks to see if a command begins with ! and has leading characters, indicating a wrong command. prints an error message.
-        elif re.match(r'^!.+', message.content):
+        elif re.match(r'^![^!]+', message.content):
             await message.channel.send('You don\'t seem to have inputted a command in correctly... Use -h for help!')

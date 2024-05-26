@@ -11,25 +11,26 @@ class Actions:
     
     #checks to see if -t, -T, etc is contained in the message, then returns a string for the proper format
     def formatter(message):
-        if re.search(r'-[t]', message):
+        #the regex here takes in the parameter, like 
+        if re.search(r'(^|\s)-t(?=\s|$)', message):
             #displays as 9:01 AM
             return ":t"
-        elif re.search(r'-[T]', message):
+        elif re.search(r'(^|\s)-T(?=\s|$)', message):
             #displays as 9:01:00 AM
             return ":T"
-        elif re.search(r'-[d]', message):
+        elif re.search(r'(^|\s)-d(?=\s|$)', message):
             #displays as 11/28/2018
             return ":d"
-        elif re.search(r'-[D]', message):
+        elif re.search(r'(^|\s)-D(?=\s|$)', message):
             #displays as November 28, 2018
             return ":D"
-        elif re.search(r'-[f]', message):
+        elif re.search(r'(^|\s)-f(?=\s|$)', message):
             #displays as November 28, 2018, 9:01 AM
             return ":f"
-        elif re.search (r'-[F]', message):
+        elif re.search (r'(^|\s)-F(?=\s|$)', message):
             #displays as Wednesday, November 28, 2018, 9:01 AM
             return ":F"
-        elif re.search(r'-[R]', message):
+        elif re.search(r'(^|\s)-R(?=\s|$)', message):
             #displays as 6 years ago
             return ":R"
         else:
