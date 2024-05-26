@@ -7,3 +7,5 @@ $ source bot-env/bin/activate on linux | $ bot-env\Scripts\activate.bat on windo
 
 and use pip to install
 $ pip install -U discord.py
+
+python-dotenv is also required to run the settings folder.
