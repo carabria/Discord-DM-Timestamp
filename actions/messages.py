@@ -13,7 +13,7 @@ class Messages:
         
         #simple hello world test
         if message.content.startswith('!hello'):
-            await message.channel.send('nyaster!')
+            await message.channel.send('world!')
 
         if message.content.startswith("!time"):
             try:
@@ -23,17 +23,20 @@ class Messages:
                         'current: returns the current time!\nfrom now: returns x hours/days/minutes/etc from now!\nago: returns x hours/days/minutes/etc ago!')
                 
                 elif message.content.endswith("current"):
-                    await message.channel.send(f'The current time is <t:{timers.Actions.current_time()}>, nyaster!')
+                    await message.channel.send(f'The current time is <t:{timers.Actions.current_time()}>!')
                 
                 elif message.content.endswith("from now"):
-                    await message.channel.send(f'That would be <t:{timers.Actions.time_from_now(message.content)}>, nyaster!')
+                    await message.channel.send(f'That would be <t:{timers.Actions.time_from_now(message.content)}>')
 
                 elif message.content.endswith("ago"):
-                    await message.channel.send(f'That would be <t:{timers.Actions.time_ago(message.content)}>, nyaster!')     
+                    await message.channel.send(f'That would be <t:{timers.Actions.time_ago(message.content)}>!')
+            
+                else:
+                    await message.channel.send('You don\'t seem to have inputted the command in correctly... Why nyot try using help?')
             
             except custom_exceptions.NoTimeValueError as e:
                 await message.channel.send(f'{e}')
+                
             except custom_exceptions.NoTimeStringError as e:
                 await message.channel.send(f'{e}')
-            else:
-                await message.channel.send('You don\'t seem to have inputted the command in correctly, nyaster... Why nyot try using help?')
+
