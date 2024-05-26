@@ -4,11 +4,14 @@ from actions import custom_exceptions
 
 class Actions:
     def current_time():
+        #splits time so it has no miliseconds
         timer = str(time.time()).split(".")
         return int(timer[0])
     
     def time_from_now(message):
+        #splits message so each individual part of the command can be called
         message_list = message.split(" ")
+        #splits time so it has no miliseconds
         timer = str(time.time()).split(".")
         current_time = int(timer[0])
         inputted_time = ""
@@ -23,6 +26,7 @@ class Actions:
         try:
             inputted_time = int(inputted_time)
         except ValueError:
+            #user inputted number wrong
             raise custom_exceptions.NoTimeValueError
 
         #message_list[2] is the measurement of time in the command e.g. days/months etc
@@ -54,10 +58,13 @@ class Actions:
             return current_time + (inputted_time * 31536000)
         
         else:
+            #user inputted time string wrong
             raise custom_exceptions.NoTimeStringError
         
     def time_ago(message):
+        #splits message so each individual part of the command can be called
         message_list = message.split(" ")
+        #splits time so it has no miliseconds
         timer = str(time.time()).split(".")
         current_time = int(timer[0])
         inputted_time = ""
@@ -72,6 +79,7 @@ class Actions:
         try:
             inputted_time = int(inputted_time)
         except ValueError:
+            #user inputted number wrong
             raise custom_exceptions.NoTimeValueError
 
         #message_list[2] is the measurement of time in the command e.g. days/months etc
@@ -103,4 +111,5 @@ class Actions:
             return current_time - (inputted_time * 31536000)
         
         else:
+            #user inputted time string wrong
             raise custom_exceptions.NoTimeStringError

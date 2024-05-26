@@ -18,7 +18,7 @@ class Main:
 
 
     def on_startup(self):
-        #logs bot username and id both to console and log file
+        #logs bot username and id both to console and log file upon login
         @self.bot.event
         async def on_ready():
             self.logger.info(f"User: {self.bot.user} (ID: {self.bot.user.id})")
@@ -26,8 +26,10 @@ class Main:
         self.bot.event(self.message_reader.on_message)
 
     def login(self):
+            #logs in using the token found in the settings file
             self.bot.run(settings.TOKEN)
 
 if __name__ == "__main__":
+    #to be run when main.py is used as entry point for the program
     main_instance = Main()
     main_instance.login()
