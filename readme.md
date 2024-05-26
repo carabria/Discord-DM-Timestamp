@@ -1,12 +1,20 @@
-The purpose of this discord bot is to respond to a message containing a timestamp with the UNIX timestamp equivalent.
+The purpose of this discord bot is to respond to a message containing a timestamp with the UNIX timestamp equivalent. Functionality for displaying current time and time from now or ago determined by years/months/days/hours etc. Functionality for inputting a specific date/time and getting it back as a unix timestamp is planned.
 
-To intialize the bot environment to run yourself, first go to your bot's directory and run
-$ python3 -m venv bot-env
+pipenv is required to install dependencies.
 
-to activate, run
-$ source bot-env/bin/activate on linux | $ bot-env\Scripts\activate.bat on windows
+run 
+```pip install pipenv```
+then run 
+```pipenv install```
 
-and use pip to install
-$ pip install -U discord.py
+To activate this project's virtualenv, run 
+```pipenv shell```
 
-python-dotenv is also required to run the settings folder.
+Alternatively, run a command inside the virtualenv with
+```pipenv run```
+
+you will need to input your bot's token in the root folder. create a .bottoken.env file in the project's root folder in the format of
+```TOKEN=YOUR_BOT_TOKEN_HERE```
+
+finally, cd to the project's root folder and run
+```python main.py```
