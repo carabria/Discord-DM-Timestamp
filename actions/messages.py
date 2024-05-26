@@ -22,3 +22,6 @@ class Messages:
             #get current time as a unix timestamp
             elif message.content.endswith("current"):
                 await message.channel.send(f'The current time is <t:{timers.Actions.current_time()}>, nyaster!')
+            
+            elif message.content.endswith("from now"):
+                 await message.channel.send(f'That would be <t:{timers.Actions.time_from_now(message.content)}>, nyaster!')
