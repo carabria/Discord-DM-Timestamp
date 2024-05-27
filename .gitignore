@@ -1,6 +1,8 @@
 bot-env/
+logs/
 __pycache__/
 actions/__pycache__/
 
+.bot_token.env
 Pipfile.lock
 .todo.txt
