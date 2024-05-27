@@ -2,35 +2,43 @@ The purpose of this discord bot is to respond to a message containing a timestam
 Functionality for inputting a specific date/time and getting it back as a unix timestamp is planned.
 
 INSTALLATION INSTRUCTIONS
-\~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. Activate a local bot-env for yourself
 
 On Linux:
 
 ```$ cd your-bot-source```
+
 ```$ python3 -m venv bot-env```
 
 On Windows:
+
 ```$ cd your-bot-source```
+
 ```$ py -3 -m venv -bot-env```
 
 2. Activate the venv
 
 On Linux:
+
 ```$ source bot-env/bin/activate```
 
 On Windows:
+
 ```$ bot-env\Scripts\activate.bat```
 
 3. Install discord.py
+
 ```$ pip install -U discord.py```
 
 4. Install pipenv for other dependencies
 
 run 
+
 ```pip install pipenv```
+
 then run 
+
 ```pipenv install```
 
 
