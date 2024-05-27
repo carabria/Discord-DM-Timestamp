@@ -1,7 +1,7 @@
 The purpose of this discord bot is to respond to a message containing a timestamp with the UNIX timestamp equivalent. Functionality for displaying current time and time from now or ago determined by years/months/days/hours etc is implemented. 
 Functionality for inputting a specific date/time and getting it back as a unix timestamp is planned.
 
-#INSTALLATION INSTRUCTIONS
+# INSTALLATION INSTRUCTIONS
 
 ## 1. Activate a local bot-env for yourself
 
