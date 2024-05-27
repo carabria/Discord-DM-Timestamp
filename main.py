@@ -1,40 +1,34 @@
 import discord
-import settings
+from settings import TOKEN
+from DLogger import DLogger
 import sys
 from actions.messages import Messages
 
-class Main:
-    def __init__(self):
-        #init logger
-        self.logger = settings.logging.getLogger("bot")
+def main():
+    #init logger
+    logger = DLogger.log("bot")
+    #init bot
+    intents = discord.Intents.default()
+    intents.message_content = True
+    bot = discord.Client(intents=intents)
+    #init event listener
+    message_reader = Messages(bot)
 
-        #init bot
-        intents = discord.Intents.default()
-        intents.message_content = True
-        self.bot = discord.Client(intents=intents)
-
-        #init event listeners
-        self.message_reader = Messages(self.bot)
-        self.on_startup()
-
-
-    def on_startup(self):
+    @bot.event
+    async def on_ready():
         #logs bot username and id both to console and log file upon login
-        @self.bot.event
-        async def on_ready():
-            self.logger.info(f"User: {self.bot.user} (ID: {self.bot.user.id})")
-        #runs on_message functionality of bot to read messages sent to it
-        self.bot.event(self.message_reader.on_message)
+        logger.info(f"User: {bot.user} (ID: {bot.user.id})")
 
-    def login(self):
-            #logs in using the token found in the settings file
-            try:
-                self.bot.run(settings.TOKEN)
-            except TypeError:
-                 print("Token is NoneType. Are you sure you created a .bot_token.env file in your root folder?")
-                 sys.exit()
+        #enables on_message functionality of bot to read messages sent to it
+        bot.event(message_reader.on_message)
+    
+    #logs in using the token found in the settings file
+    try:
+        bot.run(TOKEN)
+    except TypeError:
+            print("Token is NoneType. Are you sure you created a .bot_token.env file in your root folder?")
+            sys.exit()
 
 if __name__ == "__main__":
     #to be run when main.py is used as entry point for the program
-    main_instance = Main()
-    main_instance.login()
+    main()
