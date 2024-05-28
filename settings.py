@@ -31,13 +31,17 @@ LOGGING_CONFIG = {
             "level": "INFO",
             "class": "logging.FileHandler",
             "filename": "logs/discord.log",
-            "mode": "w",
             "formatter": "verbose"
         }
     },
     "loggers": {
         "bot": {
             "handlers": ["console_debug", "console_warning", "file"],
+            "level": "INFO",
+            "propagate": False
+        },
+        "discord": {
+            "handlers": ["console_warning", "file"],
             "level": "INFO",
             "propagate": False
         }
