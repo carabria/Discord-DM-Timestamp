@@ -3,11 +3,12 @@ import re
 import textwrap
 from actions import timers
 from actions import custom_exceptions
+from .. import DLogger
 
 class Messages:
     def __init__(self, bot):
         self.bot = bot
-        self.Actions = timers.Actions()
+        self.logger = DLogger("bot")
 
     async def on_message(self, message):
         #ignore any messages sent by the bot
@@ -17,6 +18,7 @@ class Messages:
         #simple hello world test
         if message.content.startswith('!hello'):
             await message.channel.send('world!')
+            self.logger.info("Hello command executed successfully.")
         
         #help menu displaying all available commands
         # # # # # # # # # # # # # # # # # # # # # # #
@@ -28,6 +30,7 @@ class Messages:
                 use -as a prefix at the end of the command for options (e.x. !time -help)
             '''
             await message.channel.send(textwrap.dedent(help_message))
+            self.logger.info("Help command executed successfully.")
 
         #commands relating to unix timestamps
         # # # # # # # # # # # # # # # # # # #
@@ -62,41 +65,51 @@ class Messages:
                         second[s]
                     '''
                     await message.channel.send(textwrap.dedent(help_message))
+                    self.logger.info("Time help command executed successfully.")
                 
                 #get current time as a unix timestamp
                 elif message.content.endswith("-c") or message.content.endswith("-current"):
-                    timestamp = self.Actions.current_time()
-                    time_format = self.Actions.formatter(message.content)
+                    timestamp = timers.current_time()
+                    time_format = timers.formatter(message.content)
+
                     await message.channel.send(f'The current time is <t:{timestamp}{time_format}>!')
+                    self.logger.info("Current time command executed successfully.")
                 
                 #get a time x [hours/minutes/days/etc] from now
                 elif message.content.endswith("-fn") or message.content.endswith("-from now"):
                     #pased in with 1 to add in time_calc function
-                    timestamp = self.Actions.time_calc(message.content, 1)
-                    time_format = self.Actions.formatter(message.content)
+                    timestamp = timers.time_calc(message.content, 1)
+                    time_format = timers.formatter(message.content)
 
                     await message.channel.send(f'That would be <t:{timestamp}{time_format}>')
+                    self.logger.info("Time from now command executed successfully.")
 
                 #get a time x [hours/minutes/days/etc] ago
                 elif message.content.endswith("-a") or message.content.endswith ("-ago"):
                     #passed in with -1 to subtract in time_calc function
-                    timestamp = self.Actions.time_calc(message.content, -1)
-                    time_format = self.Actions.formatter(message.content)
+                    timestamp = timers.time_calc(message.content, -1)
+                    time_format = timers.formatter(message.content)
 
                     await message.channel.send(f'That would be <t:{timestamp}{time_format}>!')
+                    self.logger.info("Time ago command executed successfully.")
 
                 #parameter was entered wrong, suggest help to user
                 else:
                     await message.channel.send('You don\'t seem to have inputted the command in correctly... Use -h for help!')
+                    self.logger.error("Time error command displayed, parameter entered wrong?")
             
             #user inputted number wrong
             except custom_exceptions.NoTimeValueError as e:
                 await message.channel.send(f'{e}')
+                self.logger.error("NoTimeValueError displayed, time number entered wrong?")
+
             
             #user inputted [hours/minutes/days/etc] wrong
             except custom_exceptions.NoTimeStringError as e:
                 await message.channel.send(f'{e}')
+                self.logger.error("NoTimeStringError displayed, time string entered wrong?")
 
         #checks to see if a command begins with ! and has leading characters, indicating a wrong command. prints an error message.
         elif re.match(r'^![^!]+', message.content):
             await message.channel.send('You don\'t seem to have inputted a command in correctly... Use -h for help!')
+            self.logger.error("Time command error displayed, command entered wrong?")

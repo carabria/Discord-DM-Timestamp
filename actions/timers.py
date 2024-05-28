@@ -3,17 +3,14 @@ import re
 from actions import custom_exceptions
 
 class Actions:
-    def __init__(self):
-        pass
-
     #returns the current time
-    def current_time(self):
+    def current_time():
         #splits time so it has no miliseconds
         timer = str(time.time()).split(".")
         return int(timer[0])
     
     #checks to see if -t, -T, etc is contained in the message, then returns a string for the proper format
-    def formatter(self, message):
+    def formatter(message):
         #the regex here searches for the parameter, accepting it if there is trailing and leading whitespace, but not if there is a leading character.
         if re.search(r'(^|\s)-t(?=\s|$)', message):
             #displays as 9:01 AM
@@ -48,7 +45,8 @@ class Actions:
             return ""
         
     #used for time_from_now and time_ago functions further down
-    def time_input(self, message, timescale):
+    @staticmethod
+    def time_input(message, timescale):
         #searches for years/months/weeks/etc inside of message string using regex
         #captures any numbers to the right of the timescale separated optionally by a whitespace
         print(f"Message: {message}")
@@ -66,7 +64,7 @@ class Actions:
         return int(inputted_time)
 
     #returns x time ago/from now. opeartor is 1 if in the future, -1 if in the past
-    def time_calc(self, message, operator):
+    def time_calc(message, operator):
         #splits time so it has no miliseconds
         timer = str(time.time()).split(".")
         current_time = int(timer[0])
@@ -91,7 +89,7 @@ class Actions:
             for pattern, seconds in time_patterns.items():
                 #if the pattern (e.g. year[s]? is found in the message)
                 if re.search(pattern, message, re.IGNORECASE):
-                    current_time += (operator * self.time_input(message, pattern) * seconds)
+                    current_time += (operator * Actions.time_input(message, pattern) * seconds)
                     pattern_found = True
             
             if not pattern_found:
