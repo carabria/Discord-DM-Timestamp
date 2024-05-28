@@ -9,8 +9,8 @@ class DLogger:
     
     def info(self, message):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.logger.info(f"[{timestamp}] message")
+        self.logger.info(f"[{timestamp}] {message}")
 
     def error(self, message):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.logger.error(f"[{timestamp}] message")
+        self.logger.error(f"[{timestamp}] {message}")

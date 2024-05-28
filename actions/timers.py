@@ -3,6 +3,9 @@ import re
 from actions import custom_exceptions
 
 class Actions:
+    def __init__(self):
+        pass
+    
     #returns the current time
     def current_time():
         #splits time so it has no miliseconds

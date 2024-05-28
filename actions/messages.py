@@ -3,12 +3,13 @@ import re
 import textwrap
 from actions import timers
 from actions import custom_exceptions
-from .. import DLogger
+from DLogger import DLogger
 
 class Messages:
     def __init__(self, bot):
         self.bot = bot
         self.logger = DLogger("bot")
+        self.timers = timers.Actions
 
     async def on_message(self, message):
         #ignore any messages sent by the bot
@@ -69,8 +70,8 @@ class Messages:
                 
                 #get current time as a unix timestamp
                 elif message.content.endswith("-c") or message.content.endswith("-current"):
-                    timestamp = timers.current_time()
-                    time_format = timers.formatter(message.content)
+                    timestamp = self.timers.current_time()
+                    time_format = self.timers.formatter(message.content)
 
                     await message.channel.send(f'The current time is <t:{timestamp}{time_format}>!')
                     self.logger.info("Current time command executed successfully.")
@@ -78,8 +79,8 @@ class Messages:
                 #get a time x [hours/minutes/days/etc] from now
                 elif message.content.endswith("-fn") or message.content.endswith("-from now"):
                     #pased in with 1 to add in time_calc function
-                    timestamp = timers.time_calc(message.content, 1)
-                    time_format = timers.formatter(message.content)
+                    timestamp = self.timers.time_calc(message.content, 1)
+                    time_format = self.timers.formatter(message.content)
 
                     await message.channel.send(f'That would be <t:{timestamp}{time_format}>')
                     self.logger.info("Time from now command executed successfully.")
@@ -87,8 +88,8 @@ class Messages:
                 #get a time x [hours/minutes/days/etc] ago
                 elif message.content.endswith("-a") or message.content.endswith ("-ago"):
                     #passed in with -1 to subtract in time_calc function
-                    timestamp = timers.time_calc(message.content, -1)
-                    time_format = timers.formatter(message.content)
+                    timestamp = self.timers.time_calc(message.content, -1)
+                    time_format = self.timers.formatter(message.content)
 
                     await message.channel.send(f'That would be <t:{timestamp}{time_format}>!')
                     self.logger.info("Time ago command executed successfully.")
