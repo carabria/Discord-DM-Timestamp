@@ -116,5 +116,13 @@ class Timers:
     def time_random():
         return randrange(Timers.time_current())
     
-    def time_convert():
-        pass
+    def time_convert(message):
+        message = message.lower()
+        months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+        ]
+        #checks if any of the months are inside of the message string case insensitively
+        format_month = any(month.lower() in message for month in months)
+        if format_month:
+            pass
