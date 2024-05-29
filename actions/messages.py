@@ -111,11 +111,12 @@ class Messages:
 
                     await message.channel.send(f'Your random UNIX timestamp is <t:{timestamp}{time_format}>!')
                     self.logger.info("Random time command executed successfully.")
-
+                    
                 #parameter was entered wrong, suggest help to user
                 else:
-                    await message.channel.send('You don\'t seem to have inputted the command in correctly... Use -h for help!')
-                    self.logger.error("Time error command displayed, parameter entered wrong?")
+                    timestamp = self.timers.time_convert(message.content)
+                    time_format = self.timers.formatter(message.content)
+                    self.logger.info("Main time command inputted")
             
             #user inputted number wrong
             except custom_exceptions.NoTimeValueError as e:

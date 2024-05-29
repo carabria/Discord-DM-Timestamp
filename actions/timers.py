@@ -2,6 +2,7 @@ import time
 import re
 from actions import custom_exceptions
 from random import randrange
+from datetime import datetime
 
 class Timers:
     def __init__(self):
@@ -15,41 +16,26 @@ class Timers:
     
     #checks to see if -t, -T, etc is contained in the message, then returns a string for the proper format
     def formatter(message):
-        #the regex here searches for the parameter, accepting it if there is trailing and leading whitespace, but not if there is a leading character.
-        if re.search(r'(^|\s)-t(?=\s|$)', message):
-            #displays as 9:01 AM
-            return ":t"
+        #Key: the commands for every format
+        #Value: the output for each format
+        formats = {
+        "-t": ":t",
+        "-T": ":T",
+        "-d": ":d",
+        "-D": ":D",
+        "-f": ":f",
+        "-F": ":F",
+        "-R": ":R"
+        }
+        # Check if the message matches any key in the switch dictionary
+        for format_command, format_key in formats.items():
+            if re.search(rf'(^|\s){format_command}(?=\s|$)', message):
+                return format_key
         
-        elif re.search(r'(^|\s)-T(?=\s|$)', message):
-            #displays as 9:01:00 AM
-            return ":T"
-        
-        elif re.search(r'(^|\s)-d(?=\s|$)', message):
-            #displays as 11/28/2018
-            return ":d"
-        
-        elif re.search(r'(^|\s)-D(?=\s|$)', message):
-            #displays as November 28, 2018
-            return ":D"
-        
-        elif re.search(r'(^|\s)-f(?=\s|$)', message):
-            #displays as November 28, 2018, 9:01 AM
-            return ":f"
-        
-        elif re.search (r'(^|\s)-F(?=\s|$)', message):
-            #displays as Wednesday, November 28, 2018, 9:01 AM
-            return ":F"
-        
-        elif re.search(r'(^|\s)-R(?=\s|$)', message):
-            #displays as 6 years ago
-            return ":R"
-        
-        else:
-            #Displays as November 28, 2018, 9:01 AM
-            return ""
+        # If no match is found, return the default format
+        return ""
         
     #used for time_from_now and time_ago functions further down
-    @staticmethod
     def time_input(message, timescale):
         #searches for years/months/weeks/etc inside of message string using regex
         #captures any numbers to the right of the timescale separated optionally by a whitespace
@@ -117,12 +103,31 @@ class Timers:
         return randrange(Timers.time_current())
     
     def time_convert(message):
-        message = message.lower()
-        months = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-        ]
-        #checks if any of the months are inside of the message string case insensitively
-        format_month = any(month.lower() in message for month in months)
-        if format_month:
-            pass
+        try:
+            date = None
+            if message.startswith("!time "):
+                message = message[6:].lower()
+            else:
+                message = message[3:].lower()
+            #searches to see if the message ends with a - and letter, such as -D for format, then removes it
+            parts = re.split(r'-[a-zA-Z]$', message)
+            message = parts[0].strip()
+
+            #checks for a format of ####-##-## with the first 4 digits being optional.
+            #if the year is included
+            if re.match(r'^(?:-?\d{4})-\d{2}-\d{2}$', message):
+                #captures the ####-##-## pattern with optional leading and trailing whitespace
+                date = re.search(r'\s*(\d{4}-\d{2}-\d{2})\s*', message)
+                #re.search returns a list that counts starting from 1, this grabs the date
+                date = str(date.group(1))
+
+            else:
+                #captures the ##-## pattern with optional leading and trailing whitespace and imputes the current year as default
+                date = re.search(r'\s*(\d{2}-\d{2})\s*', message)
+                date = str(datetime.now().year) + "-" + str(date.group(1))
+
+
+        except AttributeError:
+            raise custom_exceptions.NoTimeValueError
+        
+        return date
