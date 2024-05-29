@@ -98,7 +98,7 @@ class Messages:
 
                 #convert a specific timestamp into unix format
                 elif message.content.endswith("-s") or message.content.endswith("-specific"):
-                    timestamp = self.timers.time_convert(message.content)
+                    timestamp = self.timers.time_epoch(message.content)
                     time_format = self.timers.formatter(message.content)
 
                     await message.channel.send(f'That would be <t:{timestamp}{time_format}>!')

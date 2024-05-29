@@ -93,7 +93,7 @@ class Timers:
             for pattern, seconds in time_patterns.items():
                 #if the pattern (e.g. year[s]? is found in the message)
                 if re.search(pattern, message, re.IGNORECASE):
-                    current_time += (operator * Actions.time_input(message, pattern) * seconds)
+                    current_time += (operator * Timers.time_input(message, pattern) * seconds)
                     pattern_found = True
             
             if not pattern_found:
@@ -105,7 +105,7 @@ class Timers:
         return current_time
     
     #takes unix timestamp out of message and returns as int
-    def time_convert(message):
+    def time_epoch(message):
         operator = ""
         #searches to see if there is a - behind the number
         if re.search(r'(?<=\d)\s*-', message):
@@ -115,3 +115,6 @@ class Timers:
     
     def time_random():
         return randrange(Timers.time_current())
+    
+    def time_convert():
+        pass
