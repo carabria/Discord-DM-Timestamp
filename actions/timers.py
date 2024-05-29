@@ -29,7 +29,7 @@ class Timers:
         }
         # Check if the message matches any key in the switch dictionary
         for format_command, format_key in formats.items():
-            if re.search(rf'(^|\s){format_command}(?=\s|$)', message):
+            if re.search(rf'(\s){format_command}(?=\s|$)', message):
                 return format_key
         
         # If no match is found, return the default format
