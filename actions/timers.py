@@ -110,21 +110,20 @@ class Timers:
         message = parts[0].strip()
 
         try:
-            # checks for a format of ####-##-## or ##-## not preceded by a -
-            if re.match(r'\d{4}-\d{2}-\d{2}|(?<!:)\d{2}-\d{2}', message):
+            # Check for date format ####-##-## or ##-##
+            if re.findall(r'\d{4}-\d{2}-\d{2}|(?<!:)\d{2}-\d{2}', message):
                 print("Date found")
-                # captures the ####-##-##. captures ##-## instead if not preceded by a -
-                date_match = re.search(r'(\d{4}-\d{2}-\d{2}|(?<!:)\d{2}-\d{2})', message)
-                date = str(date_match.group(1)).strip()
-                print(f"Date: {date}")
-
-            # checks for a format of ##:##:## or ##:##
-            if re.match(r'\d{2}:\d{2}:\d{2}|(?<!:)\d{2}:\d{2}', message):
+                # Capture the date pattern
+                date = re.findall(r'\d{4}-\d{2}-\d{2}|(?<!:)\d{2}-\d{2}', message)
+                #findall returns as a list so we convert it back into a string since we know we will only ever find one
+                date = date[0]
+            # Check for time format ##:##:## or ##:##
+            if re.findall(r'\d{2}:\d{2}:\d{2}|(?<!:)\d{2}:\d{2}', message):
                 print("Time found")
-                # captures the time pattern. captures ##:## if not preceded by a :
-                time_match = re.search(r'(\d{2}:\d{2}:\d{2}|(?<!:)\d{2}:\d{2})', message)
-                time = str(time_match.group(1)).strip()
-                print(f"Time: {time}")
+                # Capture the time pattern
+                time = re.findall(r'\d{2}:\d{2}:\d{2}|(?<!:)\d{2}:\d{2}', message)
+                #findall returns as a list so we convert it back into a string since we know we will only ever find one
+                time = time[0]
 
 
         except AttributeError:
