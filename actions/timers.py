@@ -102,3 +102,8 @@ class Actions:
             raise custom_exceptions.NoTimeValueError
         
         return current_time
+    
+    #takes unix timestamp out of message and returns as int
+    def time_convert(message):
+        time = "".join(c for c in message if c.isdigit())
+        return int(time);

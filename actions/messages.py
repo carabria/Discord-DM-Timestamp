@@ -55,6 +55,7 @@ class Messages:
                         -c (current): returns the current time!
                         -fn (from now): returns x hours/days/minutes/etc from now!
                         -a (ago): returns x hours/days/minutes/etc ago!
+                        -s (specific): returns converted time of a specific unix timestamp
 
                         Time values, include this before formatting and operation parameters:
                         year[s]
@@ -93,6 +94,14 @@ class Messages:
 
                     await message.channel.send(f'That would be <t:{timestamp}{time_format}>!')
                     self.logger.info("Time ago command executed successfully.")
+
+                #convert a specific timestamp into unix format
+                elif message.content.endswith("-s") or message.content.endswith("-specific"):
+                    timestamp = self.timers.time_convert(message.content)
+                    time_format = self.timers.formatter(message.content)
+
+                    await message.channel.send(f'That would be <t:{timestamp}{time_format}>!')
+                    self.logger.info("Specific time command executed successfully.")
 
                 #parameter was entered wrong, suggest help to user
                 else:
