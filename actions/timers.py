@@ -1,6 +1,7 @@
 import time
 import re
 from actions import custom_exceptions
+from random import randrange
 
 class Actions:
     def __init__(self):
@@ -106,4 +107,9 @@ class Actions:
     #takes unix timestamp out of message and returns as int
     def time_convert(message):
         time = "".join(c for c in message if c.isdigit())
-        return int(time);
+        return int(time)
+    
+    #creates a random unix timestamp between 0 and current time
+    def time_random():
+        current_time = current_time()
+        return(randrange(current_time))

@@ -56,6 +56,7 @@ class Messages:
                         -fn (from now): returns x hours/days/minutes/etc from now!
                         -a (ago): returns x hours/days/minutes/etc ago!
                         -s (specific): returns converted time of a specific unix timestamp
+                        -r (random): returns random timestamp between 1970 and current time
 
                         Time values, include this before formatting and operation parameters:
                         year[s]
@@ -102,6 +103,14 @@ class Messages:
 
                     await message.channel.send(f'That would be <t:{timestamp}{time_format}>!')
                     self.logger.info("Specific time command executed successfully.")
+
+                #return a random unix timestamp
+                elif message.content.endswith("-r") or message.content.endswith("-random"):
+                    timestamp = self.timers.time_random()
+                    time_fortmat = self.timers.formatter()
+
+                    await message.channel.send(f'Your random UNIX time is <t:{timestamp}{time_format}>!')
+                    self.logger.info("Random time command executed successfully.")
 
                 #parameter was entered wrong, suggest help to user
                 else:
