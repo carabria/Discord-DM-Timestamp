@@ -9,7 +9,7 @@ class Messages:
     def __init__(self, bot):
         self.bot = bot
         self.logger = DLogger("bot")
-        self.timers = timers.Actions
+        self.timers = timers.Timers
 
     async def on_message(self, message):
         #ignore any messages sent by the bot

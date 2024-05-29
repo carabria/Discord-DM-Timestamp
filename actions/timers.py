@@ -3,7 +3,7 @@ import re
 from actions import custom_exceptions
 from random import randrange
 
-class Actions:
+class Timers:
     def __init__(self):
         pass
     
@@ -113,5 +113,5 @@ class Actions:
         time = "".join(c for c in message if c.isdigit())
         return operator + time
     
-    def time_random (self):
-        return randrange(self.time_current())
+    def time_random():
+        return randrange(Timers.time_current())
