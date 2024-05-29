@@ -1,13 +1,14 @@
 import time
 import re
 from actions import custom_exceptions
+from random import randrange
 
 class Actions:
     def __init__(self):
         pass
     
     #returns the current time
-    def current_time():
+    def time_current():
         #splits time so it has no miliseconds
         timer = str(time.time()).split(".")
         return int(timer[0])
@@ -105,5 +106,12 @@ class Actions:
     
     #takes unix timestamp out of message and returns as int
     def time_convert(message):
+        operator = ""
+        #searches to see if there is a - behind the number
+        if re.search(r'(?<=\d)\s*-', message):
+            operator = "-"
         time = "".join(c for c in message if c.isdigit())
-        return int(time)
+        return operator + time
+    
+    def time_random (message):
+        pass

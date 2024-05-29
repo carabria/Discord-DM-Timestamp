@@ -4,7 +4,6 @@ import textwrap
 from actions import timers
 from actions import custom_exceptions
 from DLogger import DLogger
-from random import randrange
 
 class Messages:
     def __init__(self, bot):
@@ -73,7 +72,7 @@ class Messages:
                 
                 #get current time as a unix timestamp
                 elif message.content.endswith("-c") or message.content.endswith("-current"):
-                    timestamp = self.timers.current_time()
+                    timestamp = self.timers.time_current()
                     time_format = self.timers.formatter(message.content)
 
                     await message.channel.send(f'The current time is <t:{timestamp}{time_format}>!')
@@ -107,10 +106,10 @@ class Messages:
 
                 #return a random unix timestamp
                 elif message.content.endswith("-r") or message.content.endswith("-random"):
-                    timestamp = self.timers.current_time()
+                    timestamp = self.timers.time_random()
                     time_format = self.timers.formatter(message.content)
 
-                    await message.channel.send(f'Your random UNIX timestamp is <t:{randrange(timestamp)}{time_format}>!')
+                    await message.channel.send(f'Your random UNIX timestamp is <t:{timestamp}{time_format}>!')
                     self.logger.info("Random time command executed successfully.")
 
                 #parameter was entered wrong, suggest help to user
