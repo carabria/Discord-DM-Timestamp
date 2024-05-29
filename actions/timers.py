@@ -99,31 +99,37 @@ class Timers:
         return randrange(Timers.time_current())
     
     def time_convert(message):
+        date = None
+        time = None
+        if message.startswith("!time "):
+            message = message[6:].lower()
+        else:
+            message = message[3:].lower()
+        #searches to see if the message ends with a - and letter, such as -D for format, then removes it
+        parts = re.split(r'-[a-zA-Z]$', message)
+        message = parts[0].strip()
+
         try:
-            date = None
-            if message.startswith("!time "):
-                message = message[6:].lower()
-            else:
-                message = message[3:].lower()
-            #searches to see if the message ends with a - and letter, such as -D for format, then removes it
-            parts = re.split(r'-[a-zA-Z]$', message)
-            message = parts[0].strip()
+            # checks for a format of ####-##-## or ##-## not preceded by a -
+            if re.match(r'\d{4}-\d{2}-\d{2}|(?<!:)\d{2}-\d{2}', message):
+                print("Date found")
+                # captures the ####-##-##. captures ##-## instead if not preceded by a -
+                date_match = re.search(r'(\d{4}-\d{2}-\d{2}|(?<!:)\d{2}-\d{2})', message)
+                date = str(date_match.group(1)).strip()
+                print(f"Date: {date}")
 
-            #checks for a format of ####-##-## with the first 4 digits being optional.
-            #if the year is included
-            if re.match(r'^(?:-?\d{4})-\d{2}-\d{2}$', message):
-                #captures the ####-##-## pattern with optional leading and trailing whitespace
-                date = re.search(r'\s*(\d{4}-\d{2}-\d{2})\s*', message)
-                #re.search returns a list that counts starting from 1, this grabs the date
-                date = str(date.group(1))
-
-            else:
-                #captures the ##-## pattern with optional leading and trailing whitespace and imputes the current year as default
-                date = re.search(r'\s*(\d{2}-\d{2})\s*', message)
-                date = str(datetime.now().year) + "-" + str(date.group(1))
+            # checks for a format of ##:##:## or ##:##
+            if re.match(r'\d{2}:\d{2}:\d{2}|(?<!:)\d{2}:\d{2}', message):
+                print("Time found")
+                # captures the time pattern. captures ##:## if not preceded by a :
+                time_match = re.search(r'(\d{2}:\d{2}:\d{2}|(?<!:)\d{2}:\d{2})', message)
+                time = str(time_match.group(1)).strip()
+                print(f"Time: {time}")
 
 
         except AttributeError:
             raise custom_exceptions.NoTimeValueError
         
-        return date
+        print (f"Time: {time}")
+        print (f"Date: {date}")
+        return
