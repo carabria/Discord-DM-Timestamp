@@ -101,13 +101,17 @@ class Timers:
     def time_convert(message):
         date = None
         time = None
+
         if message.startswith("!time "):
             message = message[6:].lower()
+
         else:
             message = message[3:].lower()
+
         #searches to see if the message ends with a - and letter, such as -D for format, then removes it
         parts = re.split(r'-[a-zA-Z]$', message)
         message = parts[0].strip()
+        print(f"Message: {message}")
 
         try:
             # Check for date format ####-##-## or ##-##
@@ -117,13 +121,21 @@ class Timers:
                 date = re.findall(r'\d{4}-\d{2}-\d{2}|(?<!:)\d{2}-\d{2}', message)
                 #findall returns as a list so we convert it back into a string since we know we will only ever find one
                 date = date[0]
+
             # Check for time format ##:##:## or ##:##
-            if re.findall(r'\d{2}:\d{2}:\d{2}|(?<!:)\d{2}:\d{2}', message):
+            if re.findall(r'\d{1,2}:\d{2}:\d{2}|(?<!:)\d{1,2}:\d{2}', message):
                 print("Time found")
                 # Capture the time pattern
-                time = re.findall(r'\d{2}:\d{2}:\d{2}|(?<!:)\d{2}:\d{2}', message)
+                time = re.findall(r'\d{1,2}:\d{2}:\d{2}\s|(?<!:)\d{1,2}:\d{2}', message)
                 #findall returns as a list so we convert it back into a string since we know we will only ever find one
                 time = time[0]
+
+                #adds 12 hour clock support
+                if "pm" in message or "p.m." in message:
+                    print("PM found")
+                    time = time.split(":")
+                    time[0] = str(int(time[0]) + 12)
+                    time = ":".join(time)
 
 
         except AttributeError:
