@@ -113,5 +113,5 @@ class Actions:
         time = "".join(c for c in message if c.isdigit())
         return operator + time
     
-    def time_random (message):
-        pass
+    def time_random (self):
+        return randrange(self.time_current())
