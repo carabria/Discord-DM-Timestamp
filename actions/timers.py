@@ -241,10 +241,12 @@ class Timers:
             11: 2678400   # December
         }
         print(is_leap_year)
+        
         if is_leap_year:
             month_seconds[1] = 2505600 #seconds in a leap year
             print("Updating February time.")
         i = 0
+
         #adds seconds of each month up until it reaches the current month
         while i < (message):
             print(f"Month: {month_seconds[i]}")
