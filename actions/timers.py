@@ -91,7 +91,16 @@ class Timers:
                 if "pm" in message or "p.m." in message:
                     print("PM found")
                     time = time.split(":")
-                    time[0] = str(int(time[0]) + 12)
+                    if time[0] != "12":
+                        time[0] = str(int(time[0]) + 12)
+                    time = ":".join(time).strip()
+                    
+                #convert 12 am to 00:
+                elif "am" in message or "a.m." in message:
+                    print ("AM found")
+                    time = time.split(":")
+                    if time[0] == "12":
+                        time[0] = "00"
                     time = ":".join(time).strip()
 
             print (f"Time: {time}")
@@ -106,23 +115,29 @@ class Timers:
                     i += 1       
                     
             if date:
+                print("Converting date.")
                 i = 0
                 date_values = ["years", "months", "days"]
                 date = date.split("-")
                 for value in date:
+                    print(f"Current value is {value} and current date is {date_values[i]}")
                     if i == 0:
                         #subtract date by 1970 to get the year accurately?
                         value = str(int(value) - 1970)
-                    converted_date = f"{value} {date_values[i]}"
+                    converted_date += f"{value} {date_values[i]} "
+                    i += 1
                     
         except AttributeError:
             raise custom_exceptions.NoTimeValueError
         
         print(f"Date: {converted_date} Time: {converted_time}")
-        return
+        new_message = converted_date + converted_time
+        result = Timers.time_calc(new_message)
+        print(result)
+        return result
     
     #returns x time ago/from now. opeartor is 1 if in the future, -1 if in the past
-    def time_calc(message, operator):
+    def time_calc(message, operator=None):
         #splits time so it has no miliseconds
         current_time = 0
         if operator:
@@ -149,7 +164,10 @@ class Timers:
             for pattern, seconds in time_patterns.items():
                 #if the pattern (e.g. year[s]? is found in the message)
                 if re.search(pattern, message, re.IGNORECASE):
-                    current_time += (operator * Timers.time_input(message, pattern) * seconds)
+                    if operator:
+                        current_time += (operator * Timers.time_input(message, pattern) * seconds)
+                    else:
+                        current_time += Timers.time_input(message, pattern) * seconds
                     pattern_found = True
             
             if not pattern_found:

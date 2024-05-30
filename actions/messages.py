@@ -116,6 +116,8 @@ class Messages:
                 else:
                     timestamp = self.timers.time_convert(message.content)
                     time_format = self.timers.formatter(message.content)
+
+                    await message.channel.send(f'The converted timestamp for that would be <t:{timestamp}{time_format}>!')
                     self.logger.info("Main time command inputted")
             
             #user inputted number wrong
