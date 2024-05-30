@@ -138,7 +138,7 @@ class Timers:
                         case 1:
                             #subtract month by 1 to math month properly. e.g. june 2nd is 5 months since jan 1st, not 6.
                             value = str(int(value) - 1)
-                            
+
                         case 2:
                             #increase day count by every leap year to account for extra days, starting with the first in 1972
                             leap_year = 1972
@@ -183,7 +183,7 @@ class Timers:
             #the value represents the seconds in each timescale. e.g. there are 60 seconds in a minute.
             time_patterns = {
                 "year[s]?": 31536000,
-                "month[s]?": 2628288,
+                "month[s]?": 2592000,
                 "week[s]?": 604800,
                 "day[s]?": 86400,
                 "hour[s]?": 3600,
