@@ -192,12 +192,25 @@ class Timers:
             }
 
             
+            is_leap_year = False;
             for pattern, seconds in time_patterns.items():
                 #if the pattern (e.g. year[s]? is found in the message)
                 if re.search(pattern, message, re.IGNORECASE):
                     if operator:
                         current_time += (operator * Timers.time_input(message, pattern) * seconds)
                     else:
+                        #checks current year in order to see if it is a leap year or not
+                        if pattern == "year[s]?":
+                            current_year = Timers.time_input(message, pattern)
+                            print(f"current_year is {current_year}")
+                            #checks to see if it is equal to 2 because the first leap year after epoch is 1972
+                            if (current_year % 4 == 2):
+                                print("This is a leap year.")
+                                is_leap_year = True
+                        #add second values for each month instead
+                        if pattern == "month[s]?":
+                            current_time +=  Timers.month_calc(Timers.time_input(message, pattern), is_leap_year)
+                            continue
                         current_time += Timers.time_input(message, pattern) * seconds
                     pattern_found = True
             
@@ -209,6 +222,38 @@ class Timers:
         
         return current_time
     
+    #calculates how many seconds to add based on what month it is
+    def month_calc(message, is_leap_year):
+        result = 0
+        #begins at 0 because months were subtracted by 1 earlier
+        month_seconds = {
+            0: 2678400,   # January
+            1: 2419200,   # February
+            2: 2678400,   # March
+            3: 2592000,   # April
+            4: 2678400,   # May
+            5: 2592000,   # June
+            6: 2678400,   # July
+            7: 2678400,   # August
+            8: 2592000,   # September
+            9: 2678400,  # October
+            10: 2592000,  # November
+            11: 2678400   # December
+        }
+        print(is_leap_year)
+        if is_leap_year:
+            month_seconds[1] = 2505600 #seconds in a leap year
+            print("Updating February time.")
+        i = 0
+        #adds seconds of each month up until it reaches the current month
+        while i < (message):
+            print(f"Month: {month_seconds[i]}")
+            result += month_seconds[i]
+            print(f"current seconds: {result}")
+            i += 1
+
+        return result
+
     #takes unix timestamp out of message and returns as int
     def time_epoch(message):
         operator = ""
