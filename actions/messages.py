@@ -42,7 +42,7 @@ class Messages:
                 if message.content.endswith("-h") or message.content.endswith("-help"):
                     help_message = '''
                         Gives you a timestamp based on a UTC date/time (in YYYY-MM-DD HH:MM format).
-                        
+
                         Time formatting options, include these as the 2nd to last part of the command:
                         -t: displays in short time (<t:1543392060:t>)
                         -T: displays in long time (<t:1543392060:T>)
@@ -77,6 +77,9 @@ class Messages:
                     timestamp = self.timers.time_current()
                     time_format = self.timers.formatter(message.content)
 
+                    if timestamp == "":
+                        raise custom_exceptions.NoTimeStringError
+
                     await message.channel.send(f'The current time is <t:{timestamp}{time_format}>!')
                     self.logger.info("Current time command executed successfully.")
                 
@@ -85,6 +88,9 @@ class Messages:
                     #pased in with 1 to add in time_calc function
                     timestamp = self.timers.time_calc(message.content, 1)
                     time_format = self.timers.formatter(message.content)
+
+                    if timestamp == "":
+                        raise custom_exceptions.NoTimeStringError
 
                     await message.channel.send(f'That would be <t:{timestamp}{time_format}>')
                     self.logger.info("Time from now command executed successfully.")
@@ -95,6 +101,9 @@ class Messages:
                     timestamp = self.timers.time_calc(message.content, -1)
                     time_format = self.timers.formatter(message.content)
 
+                    if timestamp == "":
+                        raise custom_exceptions.NoTimeStringError
+
                     await message.channel.send(f'That would be <t:{timestamp}{time_format}>!')
                     self.logger.info("Time ago command executed successfully.")
 
@@ -102,6 +111,10 @@ class Messages:
                 elif message.content.endswith("-s") or message.content.endswith("-specific"):
                     timestamp = self.timers.time_epoch(message.content)
                     time_format = self.timers.formatter(message.content)
+
+                    print(f"Timestamp: {timestamp}")
+                    if timestamp == "":
+                        raise custom_exceptions.NoTimeStringError
 
                     await message.channel.send(f'That would be <t:{timestamp}{time_format}>!')
                     self.logger.info("Specific time command executed successfully.")
@@ -119,6 +132,9 @@ class Messages:
                     timestamp = self.timers.time_convert(message.content)
                     time_format = self.timers.formatter(message.content)
 
+                    if timestamp == "":
+                        raise custom_exceptions.NoTimeStringError
+                    
                     await message.channel.send(f'The converted timestamp for that would be <t:{timestamp}{time_format}>!')
                     self.logger.info("Main time command inputted")
             
