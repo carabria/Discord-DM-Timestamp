@@ -49,11 +49,85 @@ class Timers:
         
         return int(inputted_time)
 
+    def time_convert(message):
+        date = None
+        converted_date = ""
+        time = None
+        converted_time = ""
+
+        if message.startswith("!time "):
+            message = message[6:].lower()
+
+        else:
+            message = message[3:].lower()
+
+        #searches to see if the message ends with a - and letter, such as -D for format, then removes it
+        parts = re.split(r'-[a-zA-Z]$', message)
+        message = parts[0].strip()
+        print(f"Message: {message}")
+
+        try:
+            # Check for date format ####-##-## or ##-##
+            if re.findall(r'\d{4}-\d{2}-\d{2}|(?<!:)\d{2}-\d{2}', message):
+                print("Date found")
+                # Capture the date pattern
+                date = re.findall(r'\d{4}-\d{2}-\d{2}|(?<!:)\d{2}-\d{2}', message)
+                #findall returns as a list so we convert it back into a string since we know we will only ever find one
+                date = date[0].strip()
+
+                #if the year wasnt included, add the current year as a default
+                if not re.match(r'\d{4}', date):
+                    date = f"{datetime.now().year}-{date}"
+
+            # Check for time format ##:##:## or ##:##
+            if re.findall(r'\d{1,2}:\d{2}:\d{2}|(?<!:)\d{1,2}:\d{2}', message):
+                print("Time found")
+                # Capture the time pattern
+                time = re.findall(r'\d{1,2}:\d{2}:\d{2}\s|(?<!:)\d{1,2}:\d{2}', message)
+                #findall returns as a list so we convert it back into a string since we know we will only ever find one
+                time = time[0].strip()
+
+                #adds 12 hour clock support
+                if "pm" in message or "p.m." in message:
+                    print("PM found")
+                    time = time.split(":")
+                    time[0] = str(int(time[0]) + 12)
+                    time = ":".join(time).strip()
+
+            print (f"Time: {time}")
+            print (f"Date: {date}")
+
+            if time:
+                i = 0
+                time_values = ["hours", "minutes", "seconds"]
+                time = time.split(":")
+                for value in time:
+                    converted_time += f"{value} {time_values[i]} "
+                    i += 1       
+                    
+            if date:
+                i = 0
+                date_values = ["years", "months", "days"]
+                date = date.split("-")
+                for value in date:
+                    if i == 0:
+                        #subtract date by 1970 to get the year accurately?
+                        value = str(int(value) - 1970)
+                    converted_date = f"{value} {date_values[i]}"
+                    
+        except AttributeError:
+            raise custom_exceptions.NoTimeValueError
+        
+        print(f"Date: {converted_date} Time: {converted_time}")
+        return
+    
     #returns x time ago/from now. opeartor is 1 if in the future, -1 if in the past
     def time_calc(message, operator):
         #splits time so it has no miliseconds
-        timer = str(time.time()).split(".")
-        current_time = int(timer[0])
+        current_time = 0
+        if operator:
+            timer = str(time.time()).split(".")
+            current_time = int(timer[0])
 
         #flag to be raised when a pattern is found. if not raise, exception happens at end of method
         pattern_found = False
@@ -98,53 +172,3 @@ class Timers:
     def time_random():
         return randrange(Timers.time_current())
     
-    def time_convert(message):
-        date = None
-        time = None
-
-        if message.startswith("!time "):
-            message = message[6:].lower()
-
-        else:
-            message = message[3:].lower()
-
-        #searches to see if the message ends with a - and letter, such as -D for format, then removes it
-        parts = re.split(r'-[a-zA-Z]$', message)
-        message = parts[0].strip()
-        print(f"Message: {message}")
-
-        try:
-            # Check for date format ####-##-## or ##-##
-            if re.findall(r'\d{4}-\d{2}-\d{2}|(?<!:)\d{2}-\d{2}', message):
-                print("Date found")
-                # Capture the date pattern
-                date = re.findall(r'\d{4}-\d{2}-\d{2}|(?<!:)\d{2}-\d{2}', message)
-                #findall returns as a list so we convert it back into a string since we know we will only ever find one
-                date = date[0]
-                
-                #if the year wasnt included, add the current year as a default
-                if not re.match(r'\d{4}', date):
-                    date = f"{datetime.now().year}-{date}"
-
-            # Check for time format ##:##:## or ##:##
-            if re.findall(r'\d{1,2}:\d{2}:\d{2}|(?<!:)\d{1,2}:\d{2}', message):
-                print("Time found")
-                # Capture the time pattern
-                time = re.findall(r'\d{1,2}:\d{2}:\d{2}\s|(?<!:)\d{1,2}:\d{2}', message)
-                #findall returns as a list so we convert it back into a string since we know we will only ever find one
-                time = time[0]
-
-                #adds 12 hour clock support
-                if "pm" in message or "p.m." in message:
-                    print("PM found")
-                    time = time.split(":")
-                    time[0] = str(int(time[0]) + 12)
-                    time = ":".join(time)
-
-
-        except AttributeError:
-            raise custom_exceptions.NoTimeValueError
-        
-        print (f"Time: {time}")
-        print (f"Date: {date}")
-        return
