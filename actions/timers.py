@@ -121,6 +121,10 @@ class Timers:
                 date = re.findall(r'\d{4}-\d{2}-\d{2}|(?<!:)\d{2}-\d{2}', message)
                 #findall returns as a list so we convert it back into a string since we know we will only ever find one
                 date = date[0]
+                
+                #if the year wasnt included, add the current year as a default
+                if not re.match(r'\d{4}', date):
+                    date = f"{datetime.now().year}-{date}"
 
             # Check for time format ##:##:## or ##:##
             if re.findall(r'\d{1,2}:\d{2}:\d{2}|(?<!:)\d{1,2}:\d{2}', message):
