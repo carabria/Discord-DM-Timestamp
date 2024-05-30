@@ -242,9 +242,11 @@ class Timers:
     def time_epoch(message):
         operator = ""
         #searches to see if there is a - behind the number
-        if re.search(r'(?<=\d)\s*-', message):
+        if re.search(r'-(?=\d)', message):
             operator = "-"
+        print(f"Operator: {operator}")
         time = "".join(c for c in message if c.isdigit())
+        print(time)
         return operator + time
     
     def time_random():
