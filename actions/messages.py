@@ -41,6 +41,8 @@ class Messages:
                 #display available parameters in time
                 if message.content.endswith("-h") or message.content.endswith("-help"):
                     help_message = '''
+                        Gives you a timestamp based on a UTC date/time (in YYYY-MM-DD HH:MM format).
+                        
                         Time formatting options, include these as the 2nd to last part of the command:
                         -t: displays in short time (<t:1543392060:t>)
                         -T: displays in long time (<t:1543392060:T>)
