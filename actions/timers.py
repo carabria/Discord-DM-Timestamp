@@ -65,12 +65,10 @@ class Timers:
         #searches to see if the message ends with a - and letter, such as -D for format, then removes it
         parts = re.split(r'-[a-zA-Z]$', message)
         message = parts[0].strip()
-        print(f"Message: {message}")
 
         try:
             # Check for date format ####-##-## or ##-##
             if re.findall(r'\d{4}-\d{2}-\d{2}|(?<!:)\d{2}-\d{2}', message):
-                print("Date found")
                 # Capture the date pattern
                 date = re.findall(r'\d{4}-\d{2}-\d{2}|(?<!:)\d{2}-\d{2}', message)
                 #findall returns as a list so we convert it back into a string since we know we will only ever find one
@@ -82,7 +80,6 @@ class Timers:
 
             # Check for time format ##:##:## or ##:##
             if re.findall(r'\d{1,2}:\d{2}:\d{2}|(?<!:)\d{1,2}:\d{2}', message):
-                print("Time found")
                 # Capture the time pattern
                 time = re.findall(r'\d{1,2}:\d{2}:\d{2}\s|(?<!:)\d{1,2}:\d{2}', message)
                 #findall returns as a list so we convert it back into a string since we know we will only ever find one
@@ -90,7 +87,6 @@ class Timers:
 
                 #adds 12 hour clock support
                 if "pm" in message or "p.m." in message:
-                    print("PM found")
                     time = time.split(":")
                     if time[0] != "12":
                         time[0] = str(int(time[0]) + 12)
@@ -98,15 +94,11 @@ class Timers:
 
                 #convert 12 am to 00:
                 elif "am" in message or "a.m." in message:
-                    print ("AM found")
                     time = time.split(":")
 
                     if time[0] == "12":
                         time[0] = "00"
                     time = ":".join(time).strip()
-
-            print (f"Time: {time}")
-            print (f"Date: {date}")
 
             if time:
                 i = 0
@@ -118,7 +110,6 @@ class Timers:
                     i += 1       
                     
             if date:
-                print("Converting date.")
                 i = 0
                 date_values = ["years", "months", "days"]
                 date = date.split("-")
@@ -129,7 +120,6 @@ class Timers:
                 date[2] = str(int(date[2]) - 1)
 
                 for value in date:
-                    print(f"Current value is {value} and current date is {date_values[i]}")
                     match i:
                         case 0:
                             #subtract year by 1970 to get the year properly?
@@ -161,10 +151,8 @@ class Timers:
         except AttributeError:
             raise custom_exceptions.NoTimeValueError
         
-        print(f"Date: {converted_date} Time: {converted_time}")
         new_message = converted_date + converted_time
         result = Timers.time_calc(new_message)
-        print(result)
         return result
     
     #returns x time ago/from now. opeartor is 1 if in the future, -1 if in the past
@@ -202,10 +190,8 @@ class Timers:
                         #checks current year in order to see if it is a leap year or not
                         if pattern == "year[s]?":
                             current_year = Timers.time_input(message, pattern)
-                            print(f"current_year is {current_year}")
                             #checks to see if it is equal to 2 because the first leap year after epoch is 1972
                             if (current_year % 4 == 2):
-                                print("This is a leap year.")
                                 is_leap_year = True
                         #add second values for each month instead
                         if pattern == "month[s]?":
@@ -240,18 +226,14 @@ class Timers:
             10: 2592000,  # November
             11: 2678400   # December
         }
-        print(is_leap_year)
-        
+
         if is_leap_year:
             month_seconds[1] = 2505600 #seconds in a leap year
-            print("Updating February time.")
         i = 0
 
         #adds seconds of each month up until it reaches the current month
         while i < (message):
-            print(f"Month: {month_seconds[i]}")
             result += month_seconds[i]
-            print(f"current seconds: {result}")
             i += 1
 
         return result
