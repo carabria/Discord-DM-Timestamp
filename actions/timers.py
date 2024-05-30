@@ -94,7 +94,7 @@ class Timers:
                     if time[0] != "12":
                         time[0] = str(int(time[0]) + 12)
                     time = ":".join(time).strip()
-                    
+
                 #convert 12 am to 00:
                 elif "am" in message or "a.m." in message:
                     print ("AM found")
@@ -119,11 +119,37 @@ class Timers:
                 i = 0
                 date_values = ["years", "months", "days"]
                 date = date.split("-")
+                base_year = int(date[0])
+                base_month = int(date[1])
+                base_day = int(date[2])
+                #subtract day by 1 to math day properly. e.g. jan 2nd is 1 day since jan 1st, not 2.
+                date[2] = str(int(date[2]) - 1)
+                
                 for value in date:
                     print(f"Current value is {value} and current date is {date_values[i]}")
-                    if i == 0:
-                        #subtract date by 1970 to get the year accurately?
-                        value = str(int(value) - 1970)
+                    match i:
+                        case 0:
+                            #subtract year by 1970 to get the year properly?
+                            value = str(int(value) - 1970)
+                        case 1:
+                            #subtract month by 1 to math month properly. e.g. june 2nd is 5 months since jan 1st, not 6.
+                            value = str(int(value) - 1)
+                        case 2:
+                            #increase day count by every leap year to account for extra days, starting with the first in 1972
+                            leap_year = 1972
+                            while leap_year < base_year:
+                                if base_year == leap_year and base_month > 2:
+                                    value = str(int(value) + 1)
+
+                                elif base_year == leap_year and base_month == 2 and base_day == 29:
+                                    value = str(int(value) + 1)
+
+                                elif base_year == leap_year and base_month == 1:
+                                    break
+
+                                value = str(int(value) + 1)
+                                leap_year += 4
+
                     converted_date += f"{value} {date_values[i]} "
                     i += 1
                     
