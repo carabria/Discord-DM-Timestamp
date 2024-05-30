@@ -43,6 +43,7 @@ class Timers:
         if match:
             #returns the value of the first grouping in match, e.g. (\d+), the digits
             inputted_time = match.group(1)
+
         else:
             #user did not input time value to the left of timescale
             raise custom_exceptions.NoTimeValueError
@@ -99,6 +100,7 @@ class Timers:
                 elif "am" in message or "a.m." in message:
                     print ("AM found")
                     time = time.split(":")
+
                     if time[0] == "12":
                         time[0] = "00"
                     time = ":".join(time).strip()
@@ -110,6 +112,7 @@ class Timers:
                 i = 0
                 time_values = ["hours", "minutes", "seconds"]
                 time = time.split(":")
+
                 for value in time:
                     converted_time += f"{value} {time_values[i]} "
                     i += 1       
@@ -124,16 +127,18 @@ class Timers:
                 base_day = int(date[2])
                 #subtract day by 1 to math day properly. e.g. jan 2nd is 1 day since jan 1st, not 2.
                 date[2] = str(int(date[2]) - 1)
-                
+
                 for value in date:
                     print(f"Current value is {value} and current date is {date_values[i]}")
                     match i:
                         case 0:
                             #subtract year by 1970 to get the year properly?
                             value = str(int(value) - 1970)
+
                         case 1:
                             #subtract month by 1 to math month properly. e.g. june 2nd is 5 months since jan 1st, not 6.
                             value = str(int(value) - 1)
+                            
                         case 2:
                             #increase day count by every leap year to account for extra days, starting with the first in 1972
                             leap_year = 1972
@@ -215,4 +220,3 @@ class Timers:
     
     def time_random():
         return randrange(Timers.time_current())
-    
