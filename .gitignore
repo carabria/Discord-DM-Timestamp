@@ -6,3 +6,4 @@ actions/__pycache__/
 .bot_token.env
 Pipfile.lock
 .todo.txt
+.commands.txt
